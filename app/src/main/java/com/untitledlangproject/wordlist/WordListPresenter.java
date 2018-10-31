@@ -7,7 +7,9 @@ import com.untitledlangproject.dao.WordItem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +41,6 @@ public class WordListPresenter implements WordListMVP.Presenter {
 
         mView.showProgressBar();
         try {
-
             //Request the reader for the file on the model layer
             BufferedReader reader = mModel.requestTxtFile(mView.getContext());
 
@@ -49,6 +50,7 @@ public class WordListPresenter implements WordListMVP.Presenter {
             Map<String, Integer> mapWordsListForCounting = new HashMap<>();
             while((line = reader.readLine()) != null){
                 for(String word : line.trim().split(" ")){
+                    word = word.replaceAll("[^a-zA-Z0-9_-]", "");
 
                     //Check if the current word is inserted yet
                     if(mapWordsListForCounting.get(word) == null){
@@ -58,14 +60,23 @@ public class WordListPresenter implements WordListMVP.Presenter {
                         mapWordsListForCounting.put(word, ++currentTimesOfUsage);
                     }
 
-                    WordItem wordItem = new WordItem(
-                            word.replaceAll("[^a-zA-Z0-9_-]", ""),
-                            mapWordsListForCounting.get(word)
-                    );
-                    listWords.add(wordItem);
+
                 }
             }
+            //Iterates the Map in order to add them into a list
+            for(Map.Entry<String, Integer> entry : mapWordsListForCounting.entrySet()){
+                if(entry.getKey().equals("to")){
+                    Log.d("to aqui", "te peguei " + entry.getKey());
+                }
+                WordItem wordItem = new WordItem(entry.getKey(), entry.getValue());
+                Log.d("palavra", wordItem.getText());
+                listWords.add(wordItem);
+            }
+            //Sort the list putting the words that were most often used on the top
+            Collections.sort(listWords);
             reader.close();
+
+            //Notifies the view that the word list has been updated
             mView.updateWordList(listWords);
             mView.hideProgressBar();
         } catch (IOException e) {
