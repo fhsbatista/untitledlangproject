@@ -49,17 +49,18 @@
         app:layout_constraintStart_toEndOf="@+id/tv_word"
         tools:layout_editor_absoluteY="8dp" />
 
-    <ImageView
+    <Button
         android:id="@+id/img_no_keep"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/img_keep"
         app:layout_constraintEnd_toStartOf="@+id/img_keep"
         app:layout_constraintTop_toTopOf="@+id/img_keep"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_close_black_24dp" />
+        android:background="@drawable/ic_close_black_24dp"
+         />
 
     <ImageView
         android:id="@+id/img_keep"
