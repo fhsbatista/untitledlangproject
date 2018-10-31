@@ -13,8 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
-
 public class WordListPresenter implements WordListMVP.Presenter {
 
 
@@ -36,7 +34,6 @@ public class WordListPresenter implements WordListMVP.Presenter {
         onViewCreated();
     }
 
-
     private void onViewCreated() {
 
         mView.showProgressBar();
@@ -50,7 +47,7 @@ public class WordListPresenter implements WordListMVP.Presenter {
             Map<String, Integer> mapWordsListForCounting = new HashMap<>();
             while((line = reader.readLine()) != null){
                 for(String word : line.trim().split(" ")){
-                    word = word.replaceAll("[^a-zA-Z0-9_-]", "");
+                    word = word.toLowerCase().replaceAll("[^a-zA-Z0-9_-]", "");
 
                     //Check if the current word is inserted yet
                     if(mapWordsListForCounting.get(word) == null){
