@@ -19,7 +19,7 @@ public class WordListPresenter implements WordListMVP.Presenter {
     private WordListMVP.View mView;
     private WordListMVP.Model mModel;
 
-    private List<WordItem> listWords = new ArrayList<>();
+    private ArrayList<WordItem> listWords = new ArrayList<>();
 
     public WordListPresenter(WordListMVP.Model model){
 
@@ -33,6 +33,12 @@ public class WordListPresenter implements WordListMVP.Presenter {
         //Execute the needed actions since the view has been created
         onViewCreated();
     }
+
+    @Override
+    public void onFinishButtonClicked() {
+        mView.goFlashCreatorActivity();
+    }
+
 
     private void onViewCreated() {
 

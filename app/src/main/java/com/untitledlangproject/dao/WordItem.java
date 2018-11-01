@@ -1,33 +1,32 @@
 package com.untitledlangproject.dao;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-public class WordItem extends Word implements Comparable {
+public class WordItem extends Word implements Comparable, Parcelable {
 
     private int numberOfUsage;
-    private boolean keep;
 
     public WordItem(String text, int timesOfUsage) {
         super(text);
         this.numberOfUsage = timesOfUsage;
-        this.keep = true;
+    }
+
+    public WordItem(Parcel in){
+        super(in.readString());
+        this.numberOfUsage = in.readInt();
     }
 
     public int getNumberOfUsage() {
         return numberOfUsage;
     }
 
-    public boolean isKeep() {
-        return keep;
-    }
 
     public void setNumberOfUsage(int numberOfUsage) {
         this.numberOfUsage = numberOfUsage;
     }
 
-    public void setKeep(boolean keep) {
-        this.keep = keep;
-    }
 
     @Override
     public int compareTo(@NonNull Object o) {
@@ -42,4 +41,31 @@ public class WordItem extends Word implements Comparable {
         }
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.getText());
+        dest.writeInt(this.numberOfUsage);
+    }
+
+    public static final Parcelable.Creator<WordItem> CREATOR = new Parcelable.Creator<WordItem>()
+    {
+        public WordItem createFromParcel(Parcel in)
+        {
+            return new WordItem(in);
+        }
+        public WordItem[] newArray(int size)
+        {
+            return new WordItem[size];
+        }
+    };
+
+    @Override
+    public String toString() {
+        return getText();
+    }
 }

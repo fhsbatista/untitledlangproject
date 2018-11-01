@@ -7,6 +7,7 @@ import com.untitledlangproject.dao.WordItem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface WordListMVP {
@@ -14,13 +15,15 @@ public interface WordListMVP {
     interface View {
         void showProgressBar();
         void hideProgressBar();
-        void updateWordList(List<WordItem> words);
+        void updateWordList(ArrayList<WordItem> words);
         void showErrorWhenProcessingFile();
+        void goFlashCreatorActivity();
         Context getContext();
     }
 
     interface Presenter {
         void setView(WordListMVP.View view);
+        void onFinishButtonClicked();
 
     }
 

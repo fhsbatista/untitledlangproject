@@ -2,6 +2,7 @@ package com.untitledlangproject.root;
 
 import android.app.Application;
 
+import com.untitledlangproject.flashcardcreator.FlashCardCreatorModule;
 import com.untitledlangproject.selectcontent.SelectContentModule;
 import com.untitledlangproject.wordlist.WordListModule;
 
@@ -19,6 +20,7 @@ public class App extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .selectContentModule(new SelectContentModule())
                 .wordListModule(new WordListModule())
+                .flashCardCreatorModule(new FlashCardCreatorModule())
                 .build();
     }
 
