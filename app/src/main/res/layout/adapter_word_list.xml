@@ -37,42 +37,28 @@
         android:id="@+id/tv_number_of_usages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:text="20"
         android:textColor="@color/colorAccent"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/img_no_keep"
-        app:layout_constraintStart_toEndOf="@+id/tv_word"
         tools:layout_editor_absoluteY="8dp" />
 
     <Button
         android:id="@+id/img_no_keep"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_keep"
-        app:layout_constraintEnd_toStartOf="@+id/img_keep"
-        app:layout_constraintTop_toTopOf="@+id/img_keep"
-        app:layout_constraintVertical_bias="0.0"
-        android:background="@drawable/ic_close_black_24dp"
-         />
-
-    <ImageView
-        android:id="@+id/img_keep"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/ic_close_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_black_24dp" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </android.support.constraint.ConstraintLayout>
