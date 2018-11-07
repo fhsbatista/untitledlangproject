@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +44,7 @@ public class WordListPresenter implements WordListMVP.Presenter {
         mView.showProgressBar();
         try {
             //Request the reader for the file on the model layer
-            BufferedReader reader = mModel.requestTxtFile(mView.getContext());
+            BufferedReader reader = mModel.requestContentTxtFile(mView.getContext());
 
             //Processing the txt file
             String line;
@@ -66,6 +65,10 @@ public class WordListPresenter implements WordListMVP.Presenter {
 
                 }
             }
+
+            //Remove from the map the words that have been saved by the user before
+            removeSavedWords(mapWordsListForCounting);
+
             //Iterates the Map in order to add them into a list
             for(Map.Entry<String, Integer> entry : mapWordsListForCounting.entrySet()){
                 if(entry.getKey().equals("to")){
@@ -84,6 +87,22 @@ public class WordListPresenter implements WordListMVP.Presenter {
             mView.hideProgressBar();
         } catch (IOException e) {
             e.printStackTrace();
+            mView.showErrorWhenProcessingFile();
+        }
+    }
+
+    @Override
+    public void removeSavedWords(Map<String, Integer> words) {
+        try {
+
+            List<String> savedWords = mModel.requestSavedWordsList(mView.getContext());
+            for(String savedWord : savedWords){
+                if(words.get(savedWord) != null){
+                    words.remove(savedWord);
+                }
+            }
+
+        } catch (IOException e) {
             mView.showErrorWhenProcessingFile();
         }
     }

@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface WordListMVP {
 
@@ -25,9 +26,12 @@ public interface WordListMVP {
         void setView(WordListMVP.View view);
         void onFinishButtonClicked();
 
+        //This method must be used in order to remove the words from the list that will be shown for the user
+        void removeSavedWords(Map<String, Integer> words);
     }
 
     interface Model {
-        BufferedReader requestTxtFile(Context context) throws IOException;
+        BufferedReader requestContentTxtFile(Context context) throws IOException;
+        List<String> requestSavedWordsList(Context context) throws IOException;
     }
 }
