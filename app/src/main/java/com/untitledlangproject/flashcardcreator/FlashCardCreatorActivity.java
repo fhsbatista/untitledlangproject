@@ -77,18 +77,19 @@ public class FlashCardCreatorActivity extends AppCompatActivity implements Flash
             @Override
             public void onRightCardExit(Object o) {
             }
-
-            @Override
-            public void onAdapterAboutToEmpty(int i) {
-                mPresenter.notifyWordRemoved(mListWord);
-            }
-
             @Override
             public void onScroll(float v) {
                 View view = mSwiper.getSelectedView();
                 view.findViewById(R.id.tv_remove_left).setAlpha(v > 0 ? v : 0);
                 view.findViewById(R.id.tv_remove_right).setAlpha(v < 0 ? -v : 0);
             }
+
+            @Override
+            public void onAdapterAboutToEmpty(int i) {
+                mPresenter.notifyWordRemoved(mListWord);
+            }
+
+
         });
 
 
@@ -98,6 +99,7 @@ public class FlashCardCreatorActivity extends AppCompatActivity implements Flash
                 WordItem word = mListWord.get(0);
                 String translation = mEditTextTranslation.getText().toString();
                 mPresenter.saveWordRequest(word, translation);
+                mEditTextTranslation.setText("");
             }
         });
 
