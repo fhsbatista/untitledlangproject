@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.untitledlangproject.R;
 import com.untitledlangproject.dao.WordItem;
 import com.untitledlangproject.flashcardcreator.FlashCardCreatorActivity;
+import com.untitledlangproject.general.RecyclerItemClickListener;
 import com.untitledlangproject.root.App;
 
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import javax.inject.Inject;
 
 public class WordListActivity extends AppCompatActivity implements WordListMVP.View{
 
+    private static final String TAG = WordListActivity.class.getSimpleName();
     @Inject
     WordListMVP.Presenter mPresenter;
 
@@ -56,6 +60,9 @@ public class WordListActivity extends AppCompatActivity implements WordListMVP.V
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
+
+
+
         mButtonFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +88,12 @@ public class WordListActivity extends AppCompatActivity implements WordListMVP.V
     public void updateWordList(ArrayList<WordItem> words) {
         mWords = words;
         mAdapter = new WordAdapter(mWords);
+        mAdapter.setOnNoKeepButtonListener(new WordAdapter.OnClickListener() {
+            @Override
+            public void OnNoKeepButtonListener(String word) {
+                mPresenter.saveWord(word);
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
@@ -110,4 +123,5 @@ public class WordListActivity extends AppCompatActivity implements WordListMVP.V
             mAdapter.notifyDataSetChanged();
         }
     }
+
 }

@@ -18,6 +18,7 @@ import java.util.List;
 public class WordAdapter extends RecyclerView.Adapter<WordAdapter.MyViewHolder> {
 
     private List<WordItem> words;
+    private OnClickListener mOnClickListener;
 
     public WordAdapter(List<WordItem> words) {
         this.words = words;
@@ -47,6 +48,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 words.remove(position);
+                mOnClickListener.OnNoKeepButtonListener(word.getText());
                 notifyDataSetChanged();
             }
         });
@@ -59,6 +61,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.MyViewHolder> 
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
+
         private TextView tvWord, tvNumberOfUsages;
         private Button imgNoKeep;
 
@@ -67,8 +70,18 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.MyViewHolder> 
             tvWord = itemView.findViewById(R.id.tv_word);
             tvNumberOfUsages = itemView.findViewById(R.id.tv_number_of_usages);
             imgNoKeep = itemView.findViewById(R.id.img_no_keep);
+
         }
 
 
+
+
+    }
+    public void setOnNoKeepButtonListener(OnClickListener onClickListener){
+        mOnClickListener = onClickListener;
+    }
+
+    public interface OnClickListener{
+        void OnNoKeepButtonListener(String word);
     }
 }

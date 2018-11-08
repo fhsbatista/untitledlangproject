@@ -6,9 +6,17 @@ import android.util.Log;
 import com.untitledlangproject.R;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,24 +34,48 @@ public class WordListModel implements WordListMVP.Model {
     }
 
     @Override
-    public List<String> requestSavedWordsList(Context context) throws IOException {
+    public List<String> requestSavedWordsList(Context context) throws IOException{
+        List<String> savedWords = new ArrayList<>();
 
-        //Creating the list that will be used on the return statement
-        List<String> savedwords = new ArrayList<>();
+        try {
+            InputStream inputStream = context.openFileInput("savedwords.txt");
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                String line = "";
 
-        //Opening the file
-        InputStream ins = context.getResources().openRawResource(R.raw.savedwords);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(ins));
+                while((line=reader.readLine())!=null){
+                    savedWords.add(line);
+                }
 
-        //Reading the file
-        String line;
-        while((line = reader.readLine())!=null){
-            for(String word : line.toLowerCase().trim().split(" ")){
-                word = word.replaceAll("[^a-zA-Z0-9_-]", "");
-                savedwords.add(word);
+                inputStream.close();
             }
-        }
-        return savedwords;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
 
+            //The file will be created
+            File file = new File(context.getFilesDir(), "savedwords.txt");
+            FileOutputStream fileOutputStream = new FileOutputStream(file, true);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+            outputStreamWriter.close();
+
+        }
+
+
+        return savedWords;
+    }
+
+
+
+
+
+
+    @Override
+    public void saveWord(Context context, String word) throws IOException {
+        File file = new File(context.getFilesDir(), "savedwords.txt");
+        FileOutputStream fileOutputStream = new FileOutputStream(file, true);
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+        outputStreamWriter.write("\n" + word);
+        outputStreamWriter.close();
     }
 }

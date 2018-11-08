@@ -1,11 +1,13 @@
 package com.untitledlangproject.wordlist;
 
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 
 import com.untitledlangproject.dao.WordItem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -104,6 +106,16 @@ public class WordListPresenter implements WordListMVP.Presenter {
 
         } catch (IOException e) {
             mView.showErrorWhenProcessingFile();
+        }
+    }
+
+    @Override
+    public void saveWord(String word) {
+
+        try {
+            mModel.saveWord(mView.getContext(), word);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
