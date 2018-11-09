@@ -60,7 +60,7 @@ public class WordListPresenter implements WordListMVP.Presenter {
 
             while((line = reader.readLine()) != null){
                 for(String word : line.trim().split(" ")){
-                    word = word.toLowerCase().replaceAll("[^a-zA-Z0-9_-]", "");
+                    word = word.toLowerCase().replaceAll("[^'a-zA-Z0-9_-]", "");
 
                     //Check if the current word is inserted yet
                     if(mapWordsListForCounting.get(word) == null){
