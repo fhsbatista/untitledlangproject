@@ -8,31 +8,88 @@
     android:orientation="vertical"
     tools:context=".wordlist.WordListActivity">
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_statics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp">
+
+
+        <ProgressBar
+            android:id="@+id/pb_word_percent"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:max="100"
+            android:progress="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_label_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/pb_word_percent"
+            android:layout_below="@id/pb_word_percent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Known words percent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_different_words_percent"
+            app:layout_constraintTop_toBottomOf="@+id/pb_word_percent" />
+
+        <TextView
+            android:id="@+id/tv_different_words_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/pb_word_percent"
+            android:layout_alignRight="@id/pb_word_percent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="95%"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_label_progress_bar"
+            app:layout_constraintEnd_toEndOf="@+id/pb_word_percent"
+            app:layout_constraintTop_toTopOf="@+id/tv_label_progress_bar" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_statics"
+        android:layout_margin="12dp"
+        android:visibility="visible">
+
+    </android.support.v7.widget.RecyclerView>
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
+        android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
     <Button
         android:id="@+id/bt_finish"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:text="Finish"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
-        />
+        android:text="Finish" />
+
 </RelativeLayout>

@@ -21,6 +21,9 @@ public class WordListPresenter implements WordListMVP.Presenter {
     private WordListMVP.Model mModel;
 
     private ArrayList<WordItem> listWords = new ArrayList<>();
+    private Map<String, Integer> mapWordsListForCounting = new HashMap<>();
+    private int mKnownDifferentWordsAmount = 0;
+
 
     public WordListPresenter(WordListMVP.Model model){
 
@@ -44,6 +47,9 @@ public class WordListPresenter implements WordListMVP.Presenter {
     private void onViewCreated() {
 
         mView.showProgressBar();
+
+        //Set the mKnownWords to 0, because this variable will be calculated later
+        mKnownDifferentWordsAmount = 0;
         try {
             //Request the reader for the file on the model layer
             BufferedReader reader = mModel.requestContentTxtFile(mView.getContext());
@@ -51,7 +57,7 @@ public class WordListPresenter implements WordListMVP.Presenter {
             //Processing the txt file
             String line;
             Log.d("teste leitura", "WordListPresenter after reading has been reached");
-            Map<String, Integer> mapWordsListForCounting = new HashMap<>();
+
             while((line = reader.readLine()) != null){
                 for(String word : line.trim().split(" ")){
                     word = word.toLowerCase().replaceAll("[^a-zA-Z0-9_-]", "");
@@ -86,11 +92,20 @@ public class WordListPresenter implements WordListMVP.Presenter {
 
             //Notifies the view that the word list has been updated
             mView.updateWordList(listWords);
+            sendStats();
             mView.hideProgressBar();
         } catch (IOException e) {
             e.printStackTrace();
             mView.showErrorWhenProcessingFile();
         }
+    }
+
+    private void sendStats(){
+
+            int totalDifferentWordsAmount = mapWordsListForCounting.size();
+            int knownDifferentWordsPercent = (mKnownDifferentWordsAmount * 100) / totalDifferentWordsAmount;
+            mView.updateStats(knownDifferentWordsPercent);
+
     }
 
     @Override
@@ -101,6 +116,7 @@ public class WordListPresenter implements WordListMVP.Presenter {
             for(String savedWord : savedWords){
                 if(words.get(savedWord) != null){
                     words.remove(savedWord);
+                    mKnownDifferentWordsAmount++;
                 }
             }
 
@@ -114,6 +130,8 @@ public class WordListPresenter implements WordListMVP.Presenter {
 
         try {
             mModel.saveWord(mView.getContext(), word);
+            mKnownDifferentWordsAmount++;
+            sendStats();
         } catch (IOException e) {
             e.printStackTrace();
         }

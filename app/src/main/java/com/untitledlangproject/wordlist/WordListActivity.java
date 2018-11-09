@@ -7,22 +7,18 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.untitledlangproject.R;
 import com.untitledlangproject.dao.WordItem;
 import com.untitledlangproject.flashcardcreator.FlashCardCreatorActivity;
-import com.untitledlangproject.general.RecyclerItemClickListener;
 import com.untitledlangproject.root.App;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,9 +29,10 @@ public class WordListActivity extends AppCompatActivity implements WordListMVP.V
     WordListMVP.Presenter mPresenter;
 
     //UI
-    private ProgressBar mProgressBar;
+    private ProgressBar mProgressBar, mWordsKnownProgressBar;
     private RecyclerView mRecyclerView;
     private Button mButtonFinish;
+    private TextView mDifferentWordsPercent, mTotalWordsPercent;
 
     //Variables
     private WordAdapter mAdapter;
@@ -50,8 +47,10 @@ public class WordListActivity extends AppCompatActivity implements WordListMVP.V
 
         //Load UI elements
         mProgressBar = findViewById(R.id.progressBar);
+        mWordsKnownProgressBar = findViewById(R.id.pb_word_percent);
         mRecyclerView = findViewById(R.id.recycler_view);
         mButtonFinish = findViewById(R.id.bt_finish);
+        mDifferentWordsPercent = findViewById(R.id.tv_different_words_percent);
 
         //Load RecyclerView attributes
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -92,6 +91,7 @@ public class WordListActivity extends AppCompatActivity implements WordListMVP.V
             @Override
             public void OnNoKeepButtonListener(String word) {
                 mPresenter.saveWord(word);
+
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -108,6 +108,12 @@ public class WordListActivity extends AppCompatActivity implements WordListMVP.V
         Intent intent = new Intent(this, FlashCardCreatorActivity.class);
         intent.putParcelableArrayListExtra("wordsList", mWords);
         startActivity(intent);
+    }
+
+    @Override
+    public void updateStats(int differenKnowntWordsNumber) {
+        mDifferentWordsPercent.setText(String.valueOf(differenKnowntWordsNumber) + "%");
+        mWordsKnownProgressBar.setProgress(differenKnowntWordsNumber);
     }
 
     @Override
